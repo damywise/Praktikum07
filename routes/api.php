@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,10 +26,14 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 route::get('/getAllUsers', [UserController::class, 'getUsers']);
-route::get('/getAllUsersToo', [UserController::class, 'getUsers'])->middleware('auth:sanctum');
+route::get('/getAllUsersToo', [UserController::class, 'getUsers']);
 
 route::get('/callApiWithToken', [ApiController::class, 'memanggilAPI']);
 
 route::get('/getAllCollections', [ApiController::class, 'getCollections']);
 route::get('/getAllLibraryUsers', [ApiController::class, 'getLibraryUsers']);
 route::get('/getAllLibraryUsersPinjam', [ApiController::class, 'getLibraryUsersPinjam']);
+
+Route::middleware('auth:sanctum')->group( function () {
+    Route::resource('collections', CollectionController::class);
+   });
